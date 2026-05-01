@@ -1,2 +1,213 @@
-# ScamRadar
+# ScamRadar: Can You Spot the Scam?
+
 ScamRadar is a gamified cybersecurity awareness web app that helps users practice identifying phishing emails, fake SMS messages, WhatsApp scams, fake job offers, banking scams, delivery scams, marketplace scams, giveaways, crypto scams, and social media scams.
+
+The app is frontend-only and uses local JavaScript templates to generate realistic safe and scam scenarios. It does not use paid AI APIs, Express, PostgreSQL, Prisma, Render, Firebase Cloud Functions, or any paid backend service.
+
+## Features
+
+- Firebase email/password registration, login, logout, and password reset
+- Local template-based scenario generation for safe and scam messages
+- Category and difficulty selection
+- Optional timed mode
+- Instant feedback with red flags, explanation, safe action, XP, and streak bonuses
+- Firestore-backed attempts, user progress, badges, and leaderboard
+- Dashboard cards for XP, level, streaks, accuracy, correct and incorrect answers
+- Recharts visualizations for category accuracy, attempts over time, and XP growth
+- Beginner-friendly cybersecurity lessons
+- Responsive dark cyber UI with Tailwind CSS
+- Netlify-ready static deployment
+
+## Screenshots
+
+Add screenshots here after deployment:
+
+- Home page
+- Play challenge
+- Result feedback
+- Dashboard
+- Leaderboard
+
+## Tech Stack
+
+- React + Vite
+- Tailwind CSS
+- Firebase Authentication
+- Cloud Firestore
+- React Router
+- Recharts
+- Lucide React
+- date-fns
+- react-hot-toast
+- Netlify
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Firebase Setup
+
+1. Create a Firebase project on the free Spark plan.
+2. Enable Authentication.
+3. Add the Email/Password sign-in provider.
+4. Create a Cloud Firestore database.
+5. Register a web app in Firebase project settings.
+6. Copy `.env.example` to `.env`.
+7. Add your Firebase web app values:
+
+```env
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+8. Publish `firestore.rules` in the Firebase console or with the Firebase CLI.
+
+## Firestore Collections
+
+`users/{uid}`
+
+- uid
+- displayName
+- email
+- xp
+- level
+- totalAttempts
+- correctAnswers
+- incorrectAnswers
+- streak
+- bestStreak
+- categoryStats
+- createdAt
+- lastPlayedDate
+
+`attempts/{attemptId}`
+
+- userId
+- scenarioId
+- category
+- difficulty
+- scenarioType
+- userAnswer
+- correctAnswer
+- isCorrect
+- pointsEarned
+- redFlags
+- createdAt
+
+`badges/{badgeId}`
+
+- userId
+- badgeName
+- description
+- earnedAt
+
+`dailyChallenges/{date}`
+
+- scenario
+- createdAt
+
+## Netlify Deployment
+
+1. Push the project to a Git repository.
+2. Create a new Netlify site from that repository.
+3. Use these build settings:
+
+```text
+Build command: npm run build
+Publish directory: dist
+```
+
+4. Add the Firebase variables from `.env.example` in Netlify:
+
+```text
+Site configuration -> Environment variables
+```
+
+5. Deploy. The included `netlify.toml` redirects all routes to `index.html` for React Router.
+
+## Folder Structure
+
+```text
+src/
+  components/
+    Badge.jsx
+    BadgeCard.jsx
+    Button.jsx
+    Card.jsx
+    EmptyState.jsx
+    LeaderboardTable.jsx
+    LoadingSpinner.jsx
+    Modal.jsx
+    Navbar.jsx
+    ProgressBar.jsx
+    ProgressChart.jsx
+    ProtectedRoute.jsx
+    ResultPanel.jsx
+    ScenarioCard.jsx
+    StatCard.jsx
+  context/
+    AuthContext.jsx
+  data/
+    badges.js
+    lessons.js
+    scamTemplates.js
+  firebase/
+    auth.js
+    firebaseConfig.js
+    firestore.js
+  pages/
+    Dashboard.jsx
+    ForgotPassword.jsx
+    Home.jsx
+    Leaderboard.jsx
+    Learn.jsx
+    Login.jsx
+    NotFound.jsx
+    Play.jsx
+    Profile.jsx
+    Register.jsx
+  utils/
+    badgeEngine.js
+    levelSystem.js
+    scenarioGenerator.js
+    scoring.js
+```
+
+## Security Notes
+
+ScamRadar is intentionally frontend-only so it can run on free hosting. Firestore rules restrict ownership for attempts and badges, and users can update only their own profile document. Because there is no trusted backend, users can still tamper with client-side XP calculations if they are determined. Do not claim this design is production-grade anti-cheat or production-grade security.
+
+For a production training platform, use a trusted backend or Cloud Functions with billing enabled to validate scoring, sanitize public leaderboard fields, and issue badges server-side.
+
+## Future Improvements
+
+- Add AI-generated scenarios later
+- Add multiplayer mode
+- Add school/company training mode
+- Add downloadable certificate
+- Add more categories
+- Add timed tournaments
+- Add browser extension version
+
+## Disclaimer
+
+ScamRadar is an educational cybersecurity awareness tool. It is not a replacement for professional security advice. All messages and examples generated by the app are fictional simulations. Do not enter real banking details, phone numbers, addresses, passwords, OTPs, or sensitive personal information.
